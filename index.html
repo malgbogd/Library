@@ -17,33 +17,54 @@
 
   <div class="container">
     <div class="bookMenu">
-      <h2>My Books</h3>
+      <h2>My Books</h2>
+      <div>
+        <div class="books">
+
+          <div class="book">
+            <div>Title</div>
+            <div>Author</div>
+            <div>Pages</div>
+            <button>Not Read</button>
+            <button>Delete</button>
+          </div>
+
+          <div class="book">
+            <div>Title</div>
+            <div>Author</div>
+            <div>Pages</div>
+            <button>Not Read</button>
+            <button>Delete</button>
+          </div>
+
+        </div>
+      </div>
     </div>
 
     <div class='addMenu'>
       <h2>Add your books!</h3>
       <div class='tag'>Title</div>
       <form>
-        <input type="text">
+        <input id="title"  type="text">
     </form>
     <div class='tag'>Auhor</div>
       <form>
-        <input type="text">
+        <input id="author" type="text">
     </form>
     <div class='tag'>Number of pages</div>
       <form>
-        <input type="text">
+        <input id="pages" type="text">
     </form>
     <div class='tag'>Did you read it?</div>
     <label for="read"></label>
       <form>
-        <select name="read">
+        <select id="read" name="read">
           <option value="">--Please choose an option--</option>
         <option value="read">Yes</option>
-        <option value="no read">No</option>
+        <option value="not read">No</option>
         </select>
     </form>
-    <button>Add the book!</button>
+    <button id='add'>Add the book!</button>
     </div>
   </div>
 
