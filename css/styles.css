@@ -66,10 +66,10 @@ h2 {
     color: #181a1b;
 }
 
-button {
+.read, .delete {
     align-self: center;
     margin-top: 9px;
-    padding: 4px;
+    padding: 6px;
     color:  #181a1b;
     background-color:#e8e6e3 ;
     border-style: solid;
@@ -79,9 +79,16 @@ button {
     border-radius: 5px;
 }
 
-button:hover {
+.read:hover {
     background-color:  #181a1b ;
     color: #e8e6e3;
+    
+} 
+
+.delete:hover {
+    background-color:  #181a1b ;
+    color: #e8e6e3;
+    
 }
 
 input, select {
@@ -102,16 +109,32 @@ input:hover {
     background: rgb(195,69,34);
     background: linear-gradient(45deg, rgba(195,69,34,1) 0%, rgba(253,187,45,1) 100%);
     width: 150px;
-    height: 170px;
     text-align: center;
     margin: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+    padding: 10px;
+ }
 
 .books{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+.title {
+    font-weight: bolder;
+    margin: 5px;
+}
+
+.author {
+    font-style: italic;
+    margin: 5px;
+}
+
+.pages {
+    margin: 5px;
+}
+
+
