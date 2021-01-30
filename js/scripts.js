@@ -1,4 +1,4 @@
-const myBooks = [];
+let myBooks = [] ;
 const myLibrary = document.querySelector('.books')
 let title;
 let author;
@@ -35,6 +35,7 @@ function displayBooks (){
       let bookDealete = document.createElement('button');
       bookDealete.className = 'delete';
       bookDealete.innerHTML = 'Delete';
+      
 
       myLibrary.appendChild(card);
       card.appendChild(bookTitle);
@@ -65,7 +66,7 @@ function displayBooks (){
 
       bookDealete.addEventListener('click', function deleteBook() {
         myBooks.splice(i,1);
-        myLibrary.removeChild(card); 
+        myLibrary.removeChild(card);
       });
 
 
@@ -73,24 +74,37 @@ function displayBooks (){
 
   }
 
-
-function Book(title,author,pages,read) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    myBooks[myBooks.length] = this
-    this.read = read;
-    this.id = myBooks.length;
+//ES6 class 
+class Book {
+  constructor(title,author,pages,read) {
+        this.title = title
+        this.author = author
+        this.pages = pages
+        myBooks[myBooks.length] = this
+        this.read = read;
+        this.id = myBooks.length
+    }
 }
+
+//constructor
+// function Book(title,author,pages,read) {
+//     this.title = title
+//     this.author = author
+//     this.pages = pages
+//     myBooks[myBooks.length] = this
+//     this.read = read;
+//     this.id = myBooks.length
+// }
 
 function addBookToLibrary() {
   getInput();
   if (checkTitle()  && checkAuthor()  && checkPages()  && checkRead()) {
-  new Book(title,author,pages,read);
-  clearInput();
-  displayBooks();
+    new Book(title,author,pages,read);
+    clearInput();
+    displayBooks();
   }
-  }
+  saveBooksToLocalStorage()
+}
 
 
 function getInput() {
@@ -144,8 +158,24 @@ document.getElementById("pages").value="";
 document.getElementById("read").value="";
 }
 
-new Book("Dance Anatomy","Jacqui Greene Haas", "258","not read")
-new Book("Applied Anatomy of Aerial Arts" ,"Emily Scherb, DPT", "187","read")
+function saveBooksToLocalStorage(){
+  
+  localStorage.setItem("myBooks", JSON.stringify(myBooks));
+
+}
+
+function getBooks(){
+  if (localStorage.length === 0) {
+    new Book("Dance Anatomy","Jacqui Greene Haas", "258","not read");
+    new Book("Applied Anatomy of Aerial Arts" ,"Emily Scherb, DPT", "187","read")
+  } else {
+  let savedBooks = localStorage.getItem("myBooks");
+  myBooks = JSON.parse(savedBooks);
+  }
+}
+
+
 
 document.getElementById('add').addEventListener('click', addBookToLibrary);
+document.onload = getBooks();
 document.onloadeddata = displayBooks();
