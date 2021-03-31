@@ -5,13 +5,45 @@ let author;
 let pages;
 let read;
 
-function displayBooks (){
+class Book {
+  constructor(title,author,pages,read) {
+        this.title = title
+        this.author = author
+        this.pages = pages
+        this.read = read;
+        this.id = myBooks.length
+    }
+}
+
+const newBooks = (() => {
+  if (localStorage.length == 0) {
+
+    myBooks.push(new Book("Dance Anatomy","Jacqui Greene Haas", "258","not read"));
+    myBooks.push(new Book("Applied Anatomy of Aerial Arts" ,"Emily Scherb, DPT", "187","read"));
+  } else {
+
+    let mySavedBooks = JSON.parse(localStorage.getItem("savedBooks"));
+    mySavedBooks.map((element) => {
+      newBook = new Book(element.title,element.author,element.pages,element.read);
+      myBooks.push(newBook);
+    });
+  }
+})();
+
+function displayBooks(){
   
   myLibrary.innerHTML ="";
   
-  let a = myBooks.length +1
+    for (let i=0; i < myBooks.length; i++) {
 
-    for (let i=0; i <= a; i++) {
+      function changeStyleByRead(){
+        if (myBooks[i].read == "read") {
+        card.className = "readBook"
+        } else {
+          card.className = "book"
+        }
+      }
+
       let card = document.createElement('div');
       changeStyleByRead();
     
@@ -48,64 +80,40 @@ function displayBooks (){
         if (myBooks[i].read==="read") {
           myBooks[i].read = "not read"
           changeStyleByRead();
+          saveBooksToLocal();
         } else {
           myBooks[i].read ="read"
           changeStyleByRead();
+          saveBooksToLocal();
         }
-
         bookRead.innerHTML = myBooks[i].read;
         });
       
-      function changeStyleByRead(){
-        if (myBooks[i].read === "read") {
-        card.className = "readBook"
-        } else {
-          card.className = "book"
-        }
-      }
+      
 
       bookDealete.addEventListener('click', function deleteBook() {
         myBooks.splice(i,1);
         myLibrary.removeChild(card);
+        saveBooksToLocal();
       });
-
-
     }
-
   }
 
-//ES6 class 
-class Book {
-  constructor(title,author,pages,read) {
-        this.title = title
-        this.author = author
-        this.pages = pages
-        myBooks[myBooks.length] = this
-        this.read = read;
-        this.id = myBooks.length
-    }
+function saveBooksToLocal (){
+  localStorage.clear();
+  let mySavingBooks = JSON.stringify(myBooks);
+  localStorage.setItem("savedBooks", mySavingBooks);
 }
-
-//constructor
-// function Book(title,author,pages,read) {
-//     this.title = title
-//     this.author = author
-//     this.pages = pages
-//     myBooks[myBooks.length] = this
-//     this.read = read;
-//     this.id = myBooks.length
-// }
 
 function addBookToLibrary() {
   getInput();
   if (checkTitle()  && checkAuthor()  && checkPages()  && checkRead()) {
-    new Book(title,author,pages,read);
+    myBooks.push(new Book(title,author,pages,read));
     clearInput();
     displayBooks();
+    saveBooksToLocal();
   }
-  saveBooksToLocalStorage()
 }
-
 
 function getInput() {
 title = document.getElementById("title").value;
@@ -158,24 +166,7 @@ document.getElementById("pages").value="";
 document.getElementById("read").value="";
 }
 
-function saveBooksToLocalStorage(){
-  
-  localStorage.setItem("myBooks", JSON.stringify(myBooks));
-
-}
-
-function getBooks(){
-  if (localStorage.length === 0) {
-    new Book("Dance Anatomy","Jacqui Greene Haas", "258","not read");
-    new Book("Applied Anatomy of Aerial Arts" ,"Emily Scherb, DPT", "187","read")
-  } else {
-  let savedBooks = localStorage.getItem("myBooks");
-  myBooks = JSON.parse(savedBooks);
-  }
-}
-
-
 
 document.getElementById('add').addEventListener('click', addBookToLibrary);
-document.onload = getBooks();
-document.onloadeddata = displayBooks();
+
+displayBooks();
